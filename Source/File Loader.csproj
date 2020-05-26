@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Save_Loader</RootNamespace>
+    <RootNamespace>FileLoader</RootNamespace>
     <UseWPF>true</UseWPF>
 	<UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
