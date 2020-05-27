@@ -3,6 +3,9 @@ Simple C# program created to copy and override any type of files
 ## Informations
 - Program  automatically saves either destination path and added files after beeing closed
 - Program saves data to file named "fdata.xml"
+- Program will be available in two versions 
+  - Self-contained - with all dlls pre-installed
+  - Framework-dependent - without any .NET Core dlls
 ## How to use
 1. Set destination path by clicking the "Set destination" button and select a folder
 2. Click "Add" button and select the file you want to add to program list
