@@ -1,7 +1,7 @@
 # File Loader
 Simple C# program created to copy and override any type of files
 ## Informations
-- Program save either destination path and added files automaticaly after beeing cloesd
+- Program save either destination path and added files automaticaly after beeing closed
 - Program saves data to file named "fdata.xml"
 ## How to use
 1. Set destination path by clicing the "Set destination" button and select a folder
