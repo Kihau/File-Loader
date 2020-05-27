@@ -29,8 +29,8 @@ namespace FileLoader
             data = new DataManager();
 
             data.Load();
-            data.filesData.ForEach(x => listBox.Items.Add(x.fileName));
-            textBoxDestination.Text = data.CopyDestination;
+            data.dataSet.FilesDataList.ForEach(x => listBox.Items.Add(x.fileName));
+            textBoxDestination.Text = data.dataSet.CopyDestination;
         }
 
         private DataManager data;
@@ -39,8 +39,8 @@ namespace FileLoader
         {
             if (listBox.SelectedIndex != -1)
             {
-                string scrFile = data.filesData[listBox.SelectedIndex].fileDirectory;
-                string destFile = textBoxDestination.Text + System.IO.Path.GetFileName(data.filesData[listBox.SelectedIndex].fileDirectory);
+                string scrFile = data.dataSet.FilesDataList[listBox.SelectedIndex].fileDirectory;
+                string destFile = textBoxDestination.Text + System.IO.Path.GetFileName(data.dataSet.FilesDataList[listBox.SelectedIndex].fileDirectory);
                 File.Copy(scrFile, destFile, true);
                 SystemSounds.Beep.Play();
             }
@@ -63,7 +63,7 @@ namespace FileLoader
                 if (editwindow.DialogSaved)
                 {
                     listBox.Items.Add(fd.fileName);
-                    data.filesData.Add(fd);
+                    data.dataSet.FilesDataList.Add(fd);
                 }
             }
         }
@@ -72,10 +72,10 @@ namespace FileLoader
         {
             if (listBox.SelectedIndex != -1)
             {
-                FileEdit editwindow = new FileEdit(data.filesData[listBox.SelectedIndex]);
+                FileEdit editwindow = new FileEdit(data.dataSet.FilesDataList[listBox.SelectedIndex]);
                 editwindow.ShowDialog();
 
-                listBox.Items[listBox.SelectedIndex] = data.filesData[listBox.SelectedIndex].fileName;
+                listBox.Items[listBox.SelectedIndex] = data.dataSet.FilesDataList[listBox.SelectedIndex].fileName;
             }
             else MessageBox.Show("None of the itemes were selected", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
@@ -84,7 +84,7 @@ namespace FileLoader
         {
             if (listBox.SelectedIndex != -1)
             {
-                data.filesData.RemoveAt(listBox.SelectedIndex);
+                data.dataSet.FilesDataList.RemoveAt(listBox.SelectedIndex);
                 listBox.Items.RemoveAt(listBox.SelectedIndex);
             }
             else MessageBox.Show("None of the itemes were selected", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -110,7 +110,7 @@ namespace FileLoader
             if (MessageBox.Show("Are you sure you want to clear all saves?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 listBox.Items.Clear();
-                data.filesData.Clear();
+                data.dataSet.FilesDataList.Clear();
             }
         }
 
