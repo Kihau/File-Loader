@@ -27,7 +27,10 @@ namespace FileLoader
         {
             InitializeComponent();
             data = new DataManager();
+
             data.Load();
+            data.filesData.ForEach(x => listBox.Items.Add(x.fileName));
+            textBoxDestination.Text = data.CopyDestination;
         }
 
         private DataManager data;
@@ -57,7 +60,7 @@ namespace FileLoader
                 FileEdit editwindow = new FileEdit(fd);
                 editwindow.ShowDialog();
 
-                if (editwindow.Result == System.Windows.Forms.DialogResult.Yes)
+                if (editwindow.DialogSaved)
                 {
                     listBox.Items.Add(fd.fileName);
                     data.filesData.Add(fd);
@@ -89,7 +92,7 @@ namespace FileLoader
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            data.Save();
+            data.Save(textBoxDestination.Text);
         }
 
         private void MenuItemDestination_Click(object sender, RoutedEventArgs e)
@@ -104,7 +107,6 @@ namespace FileLoader
 
         private void MenuItemClear_Click(object sender, RoutedEventArgs e)
         {
-
             if (MessageBox.Show("Are you sure you want to clear all saves?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 listBox.Items.Clear();
@@ -112,7 +114,7 @@ namespace FileLoader
             }
         }
 
-        private void MenuItemInfo_Click(object sender, RoutedEventArgs e)
+        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("        ¯\\_( ツ )_/¯        ", "About program", MessageBoxButton.OK, MessageBoxImage.Information);
         }

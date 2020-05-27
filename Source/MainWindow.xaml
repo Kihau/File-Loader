@@ -11,8 +11,9 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top" Background="White">
             <MenuItem Header="Set destination" Click="MenuItemDestination_Click"/>
+            <!--Change header to saves and add three categories to it - clear, load and save-->
             <MenuItem Header="Clear saves" Click="MenuItemClear_Click"/>
-            <MenuItem Header="Informations" Click="MenuItemInfo_Click"/>
+            <MenuItem Header="About" Click="MenuItemAbout_Click"/>
         </Menu>
         
         <ListBox DockPanel.Dock="Top" Height="280" Margin="8,8,8,0" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="listBox"/>

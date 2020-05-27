@@ -30,11 +30,11 @@ namespace FileLoader
         }
 
         FileData data;
-        public System.Windows.Forms.DialogResult Result { get; private set; }
+        public bool DialogSaved { get; private set; }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
-            Result = System.Windows.Forms.DialogResult.No;
+            DialogSaved = false;
             this.Close();
         }
 
@@ -45,7 +45,7 @@ namespace FileLoader
                 data.fileName = textBoxName.Text;
                 data.fileDirectory = textBoxDirectory.Text;
 
-                Result = System.Windows.Forms.DialogResult.Yes;
+                DialogSaved = true;
                 this.Close();
             }
             else MessageBox.Show("TextBox fields cannot be empty", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
