@@ -1,18 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 using System.Media;
 
@@ -28,21 +16,31 @@ namespace FileLoader
             InitializeComponent();
             data = new DataManager();
 
-            data.Load();
-            data.dataSet.FilesDataList.ForEach(x => listBox.Items.Add(x.fileName));
+            data.Load(dsfile);
+            data.dataSet.FileDataList.ForEach(x => listBox.Items.Add(x.FileName));
             textBoxDestination.Text = data.dataSet.CopyDestination;
         }
 
         private DataManager data;
 
+        private readonly string dsfile = "dataset.xml";
+
         private void ButtonLoad_Click(object sender, RoutedEventArgs e)
         {
             if (listBox.SelectedIndex != -1)
             {
-                string scrFile = data.dataSet.FilesDataList[listBox.SelectedIndex].fileDirectory;
-                string destFile = textBoxDestination.Text + System.IO.Path.GetFileName(data.dataSet.FilesDataList[listBox.SelectedIndex].fileDirectory);
-                File.Copy(scrFile, destFile, true);
-                SystemSounds.Beep.Play();
+                try
+                {
+                    string scrFile = data.dataSet.FileDataList[listBox.SelectedIndex].FileDirectory;
+                    string destFile = textBoxDestination.Text + Path.GetFileName(data.dataSet.FileDataList[listBox.SelectedIndex].FileDirectory);
+
+                    File.Copy(scrFile, destFile, true);
+                    SystemSounds.Beep.Play();
+                }
+                catch
+                {
+                   MessageBox.Show("Copy destintion or file directory path is incorrect", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else MessageBox.Show("None of the itemes were selected", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
@@ -53,17 +51,17 @@ namespace FileLoader
             FileData fd = new FileData(null, null);
 
             if (fileDialog.ShowDialog() == true)
-                fd.fileDirectory = fileDialog.FileName;
+                fd.FileDirectory = fileDialog.FileName;
 
-            if (fd.fileDirectory != null)
+            if (fd.FileDirectory != null)
             {
-                FileEdit editwindow = new FileEdit(fd);
+                FileEdit editwindow = new FileEdit(fd) { Owner = this };
                 editwindow.ShowDialog();
 
                 if (editwindow.DialogSaved)
                 {
-                    listBox.Items.Add(fd.fileName);
-                    data.dataSet.FilesDataList.Add(fd);
+                    listBox.Items.Add(fd.FileName);
+                    data.dataSet.FileDataList.Add(fd);
                 }
             }
         }
@@ -72,10 +70,10 @@ namespace FileLoader
         {
             if (listBox.SelectedIndex != -1)
             {
-                FileEdit editwindow = new FileEdit(data.dataSet.FilesDataList[listBox.SelectedIndex]);
+                FileEdit editwindow = new FileEdit(data.dataSet.FileDataList[listBox.SelectedIndex]) { Owner = this };
                 editwindow.ShowDialog();
 
-                listBox.Items[listBox.SelectedIndex] = data.dataSet.FilesDataList[listBox.SelectedIndex].fileName;
+                listBox.Items[listBox.SelectedIndex] = data.dataSet.FileDataList[listBox.SelectedIndex].FileName;
             }
             else MessageBox.Show("None of the itemes were selected", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
@@ -84,7 +82,7 @@ namespace FileLoader
         {
             if (listBox.SelectedIndex != -1)
             {
-                data.dataSet.FilesDataList.RemoveAt(listBox.SelectedIndex);
+                data.dataSet.FileDataList.RemoveAt(listBox.SelectedIndex);
                 listBox.Items.RemoveAt(listBox.SelectedIndex);
             }
             else MessageBox.Show("None of the itemes were selected", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -92,10 +90,53 @@ namespace FileLoader
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            data.Save(textBoxDestination.Text);
+            data.Save(dsfile ,textBoxDestination.Text);
         }
 
-        private void MenuItemDestination_Click(object sender, RoutedEventArgs e)
+        private void MenuItemFileSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "data file (*.xml)|*.xml";
+            fileDialog.FileName = "dataset";
+            
+            if (fileDialog.ShowDialog() == true)
+            {
+                data.Save(fileDialog.FileName, textBoxDestination.Text);
+            }
+        }
+
+        private void MenuItemFileLoad_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "program data files (*.xml)|*.xml";
+
+            if (fileDialog.ShowDialog() == true)
+            {
+                data = new DataManager();
+                data.Load(fileDialog.FileName);
+
+                listBox.Items.Clear();
+
+                data.dataSet.FileDataList.ForEach(x => listBox.Items.Add(x.FileName));
+                textBoxDestination.Text = data.dataSet.CopyDestination;
+            }
+        }
+        private void MenuItemFileClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to clear all saves?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                listBox.Items.Clear();
+                data.dataSet.FileDataList.Clear();
+            }
+        }
+
+        private void MenuItemDestinationClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to clear copy destination path?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                textBoxDestination.Text = "";
+        }
+
+        private void MenuItemDestinationSet_Click(object sender, RoutedEventArgs e)
         {
             using (System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog())
             {
@@ -105,18 +146,9 @@ namespace FileLoader
             }
         }
 
-        private void MenuItemClear_Click(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("Are you sure you want to clear all saves?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            {
-                listBox.Items.Clear();
-                data.dataSet.FilesDataList.Clear();
-            }
-        }
-
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("        ¯\\_( ツ )_/¯        ", "About program", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Program created by Kihau\n\n           ¯\\_( ツ )_/¯        ", "About program", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

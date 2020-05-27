@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="File Editor" Height="220" Width="370"
         ResizeMode="NoResize"
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown"
+        WindowStartupLocation="CenterOwner">
 
     <DockPanel>
         <Label DockPanel.Dock="Top" Content="File name:" FontSize="15" Margin="8,0,0,0"/>

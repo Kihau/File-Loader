@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -16,22 +15,22 @@ namespace FileLoader
 
         public DataSet dataSet = new DataSet();
 
-        public void Save(string destination)
+        public void Save(string dsfile, string destination)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(DataSet));
             dataSet.CopyDestination = destination;
 
-            using (XmlWriter writer = XmlWriter.Create("fdata.xml", new XmlWriterSettings() { Indent = true }))
+            using (XmlWriter writer = XmlWriter.Create(dsfile, new XmlWriterSettings() { Indent = true }))
                 serializer.Serialize(writer, dataSet);
         }
 
-        public void Load()
+        public void Load(string dsfile)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(DataSet));
 
-            if (File.Exists("fdata.xml"))
+            if (File.Exists(dsfile))
             {
-                using (Stream stream = new FileStream("fdata.xml", FileMode.Open))
+                using (Stream stream = new FileStream(dsfile, FileMode.Open))
                     dataSet = (DataSet)serializer.Deserialize(stream);
             }
         }
@@ -43,11 +42,11 @@ namespace FileLoader
         public DataSet() { }
         public DataSet(List<FileData> fd, string cd) 
         {
-            this.FilesDataList = fd;
+            this.FileDataList = fd;
             this.CopyDestination = cd;
         }
 
-        public List<FileData> FilesDataList { get; set; }
+        public List<FileData> FileDataList = new List<FileData>();
         public string CopyDestination { get; set; }
     }
 
@@ -57,12 +56,12 @@ namespace FileLoader
         public FileData() { }
         public FileData(string filename, string filedirectory)
         {
-            this.fileDirectory = filedirectory;
-            this.fileName = filename;
+            this.FileDirectory = filedirectory;
+            this.FileName = filename;
         }
 
-        public string fileDirectory { get; set; }
-        public string fileName { get; set; }
+        public string FileDirectory { get; set; }
+        public string FileName { get; set; }
     }
 
 }

@@ -1,17 +1,6 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Packaging;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace FileLoader
 {
@@ -25,8 +14,8 @@ namespace FileLoader
             InitializeComponent();
             data = newdata;
 
-            textBoxName.Text = data.fileName;
-            textBoxDirectory.Text = data.fileDirectory;
+            textBoxName.Text = data.FileName;
+            textBoxDirectory.Text = data.FileDirectory;
         }
 
         FileData data;
@@ -42,8 +31,8 @@ namespace FileLoader
         {
             if (textBoxName.Text != "" && textBoxDirectory.Text != "")
             {
-                data.fileName = textBoxName.Text;
-                data.fileDirectory = textBoxDirectory.Text;
+                data.FileName = textBoxName.Text;
+                data.FileDirectory = textBoxDirectory.Text;
 
                 DialogSaved = true;
                 this.Close();
@@ -62,7 +51,7 @@ namespace FileLoader
             OpenFileDialog fileDialog = new OpenFileDialog();
 
             if (fileDialog.ShowDialog() == true)
-                textBoxDirectory.Text = data.fileDirectory = fileDialog.FileName;
+                textBoxDirectory.Text = data.FileDirectory = fileDialog.FileName;
         }
     }
 }
