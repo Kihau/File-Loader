@@ -17,7 +17,7 @@
         </Menu>
         
         <ListBox DockPanel.Dock="Top" Height="280" Margin="8,8,8,0" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="listBox"/>
-        <Label DockPanel.Dock="Top" Content="Copy destination: " Margin="90,0,0,0"/>
+        <Label DockPanel.Dock="Top" Content="Copy destination path: " Margin="75,0,0,0"/>
         <TextBox DockPanel.Dock="Top" Height="20" Text="" Margin="10,0,10,10" Name="textBoxDestination"/>
 
         <Grid Margin="10,0,10,10">
