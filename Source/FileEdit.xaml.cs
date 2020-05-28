@@ -37,13 +37,18 @@ namespace FileLoader
                 DialogSaved = true;
                 this.Close();
             }
-            else MessageBox.Show("TextBox fields cannot be empty", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                MessageBox.Show("TextBox fields cannot be empty", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
+            {
                 ButtonSave_Click(sender, e);
+            }
         }
 
         private void ButtonBrowse_Click(object sender, RoutedEventArgs e)
@@ -51,7 +56,9 @@ namespace FileLoader
             OpenFileDialog fileDialog = new OpenFileDialog();
 
             if (fileDialog.ShowDialog() == true)
+            {
                 textBoxDirectory.Text = data.FileDirectory = fileDialog.FileName;
+            }
         }
     }
 }

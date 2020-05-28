@@ -8,20 +8,19 @@ namespace FileLoader
 {
     public class DataManager
     {
-        public DataManager()  {  }
-
-        //public string CopyDestination { get; set; }
-        //public List<FileData> filesData = new List<FileData>();
+        public DataManager() { }
 
         public DataSet dataSet = new DataSet();
 
         public void Save(string dsfile, string destination)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(DataSet));
-            dataSet.CopyDestination = destination;
+            dataSet.Destination = destination;
 
             using (XmlWriter writer = XmlWriter.Create(dsfile, new XmlWriterSettings() { Indent = true }))
+            {
                 serializer.Serialize(writer, dataSet);
+            }
         }
 
         public void Load(string dsfile)
@@ -31,7 +30,9 @@ namespace FileLoader
             if (File.Exists(dsfile))
             {
                 using (Stream stream = new FileStream(dsfile, FileMode.Open))
+                {
                     dataSet = (DataSet)serializer.Deserialize(stream);
+                }
             }
         }
     }
@@ -40,14 +41,14 @@ namespace FileLoader
     public class DataSet
     {
         public DataSet() { }
-        public DataSet(List<FileData> fd, string cd) 
+        public DataSet(List<FileData> fdlist, string dest)
         {
-            this.FileDataList = fd;
-            this.CopyDestination = cd;
+            this.FileDataList = fdlist;
+            this.Destination = dest;
         }
 
         public List<FileData> FileDataList = new List<FileData>();
-        public string CopyDestination { get; set; }
+        public string Destination { get; set; }
     }
 
     [Serializable]

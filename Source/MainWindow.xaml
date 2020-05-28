@@ -19,14 +19,11 @@
                 <MenuItem Header="Clear" Click="MenuItemDestinationClear_Click"/>
                 <MenuItem Header="Set new" Click="MenuItemDestinationSet_Click"/>
             </MenuItem>
-            <!--<MenuItem Header="Set destination" Click="MenuItemDestination_Click"/>-->
-            <!--Change header to "data" and add three categories to it - clear, load and save-->
-            <!--<MenuItem Header="Clear saves" Click="MenuItemClear_Click"/>-->
             <MenuItem Header="About" Click="MenuItemAbout_Click"/>
         </Menu>
         
         <ListBox DockPanel.Dock="Top" Height="280" Margin="8,8,8,0" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="listBox"/>
-        <Label DockPanel.Dock="Top" Content="Copy destination path: " Margin="75,0,0,0"/>
+        <Label DockPanel.Dock="Top" Content="Destination copy path: " Margin="75,0,0,0"/>
         <TextBox DockPanel.Dock="Top" Height="20" Text="" Margin="10,0,10,10" Name="textBoxDestination"/>
 
         <Grid Margin="10,0,10,10">
