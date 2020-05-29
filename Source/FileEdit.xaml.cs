@@ -16,6 +16,8 @@ namespace FileLoader
 
             textBoxName.Text = data.FileName;
             textBoxDirectory.Text = data.FileDirectory;
+
+            textBoxName.Focus();
         }
 
         FileData data;

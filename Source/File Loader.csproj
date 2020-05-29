@@ -6,6 +6,7 @@
     <RootNamespace>FileLoader</RootNamespace>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
 
 </Project>

@@ -15,10 +15,7 @@ namespace FileLoader
         {
             InitializeComponent();
             data = new DataManager();
-
-            data.Load(dsfile);
-            data.dataSet.FileDataList.ForEach(x => listBox.Items.Add(x.FileName));
-            textBoxDestination.Text = data.dataSet.Destination;
+            LoadData();
         }
 
         private DataManager data;
@@ -26,7 +23,6 @@ namespace FileLoader
         private readonly string dsfile = "dataset.xml";
 
         #region BUTTONS
-
         private void ButtonLoad_Click(object sender, RoutedEventArgs e)
         {
             if (listBox.SelectedIndex != -1)
@@ -100,14 +96,13 @@ namespace FileLoader
                 MessageBox.Show("None of the itemes were selected", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         #endregion
 
         #region MENU ITEMS
         private void MenuItemFileSave_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "data files (*.xml)|*.xml";
+            fileDialog.Filter = "Data Files (*.xml)|*.xml";
             fileDialog.FileName = "dataset";
 
             if (fileDialog.ShowDialog() == true)
@@ -119,17 +114,12 @@ namespace FileLoader
         private void MenuItemFileLoad_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "data files (*.xml)|*.xml";
+            fileDialog.Filter = "Data Files (*.xml)|*.xml";
 
             if (fileDialog.ShowDialog() == true)
             {
                 data = new DataManager();
-                data.Load(fileDialog.FileName);
-
-                listBox.Items.Clear();
-
-                data.dataSet.FileDataList.ForEach(x => listBox.Items.Add(x.FileName));
-                textBoxDestination.Text = data.dataSet.Destination;
+                LoadData();
             }
         }
         private void MenuItemFileClear_Click(object sender, RoutedEventArgs e)
@@ -165,16 +155,29 @@ namespace FileLoader
         {
             MessageBox.Show("Program created by Kihau\n\n           ¯\\_( ツ )_/¯        ", "About program", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
         #endregion
 
         #region OTHER
-
         private void Window_Closed(object sender, EventArgs e)
         {
             data.Save(dsfile, textBoxDestination.Text);
         }
 
+        private void LoadData()
+        {
+            try
+            {
+                data.Load(dsfile);
+                listBox.Items.Clear();
+
+                data.dataSet.FileDataList.ForEach(x => listBox.Items.Add(x.FileName));
+                textBoxDestination.Text = data.dataSet.Destination;
+            }
+            catch
+            {
+                MessageBox.Show("Could not load data from data file", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         #endregion
     }
 }
