@@ -7,6 +7,10 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <Authors>Kihau</Authors>
+    <Version>1.2.0</Version>
+    <Company>None</Company>
+    <Description>Simple file manager</Description>
   </PropertyGroup>
 
 </Project>

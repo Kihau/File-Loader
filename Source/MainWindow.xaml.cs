@@ -15,7 +15,7 @@ namespace FileLoader
         {
             InitializeComponent();
             data = new DataManager();
-            LoadData();
+            LoadData(dsfile);
         }
 
         private DataManager data;
@@ -119,7 +119,7 @@ namespace FileLoader
             if (fileDialog.ShowDialog() == true)
             {
                 data = new DataManager();
-                LoadData();
+                LoadData(fileDialog.FileName);
             }
         }
         private void MenuItemFileClear_Click(object sender, RoutedEventArgs e)
@@ -163,11 +163,11 @@ namespace FileLoader
             data.Save(dsfile, textBoxDestination.Text);
         }
 
-        private void LoadData()
+        private void LoadData(string file)
         {
             try
             {
-                data.Load(dsfile);
+                data.Load(file);
                 listBox.Items.Clear();
 
                 data.dataSet.FileDataList.ForEach(x => listBox.Items.Add(x.FileName));
